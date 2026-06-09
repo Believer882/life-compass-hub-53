@@ -14,6 +14,7 @@ import { Route as RoutinesRouteImport } from './routes/routines'
 import { Route as PlannerRouteImport } from './routes/planner'
 import { Route as MoodRouteImport } from './routes/mood'
 import { Route as GoalsRouteImport } from './routes/goals'
+import { Route as FinancesRouteImport } from './routes/finances'
 import { Route as IndexRouteImport } from './routes/index'
 
 const TasksRoute = TasksRouteImport.update({
@@ -41,6 +42,11 @@ const GoalsRoute = GoalsRouteImport.update({
   path: '/goals',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FinancesRoute = FinancesRouteImport.update({
+  id: '/finances',
+  path: '/finances',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -49,6 +55,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/finances': typeof FinancesRoute
   '/goals': typeof GoalsRoute
   '/mood': typeof MoodRoute
   '/planner': typeof PlannerRoute
@@ -57,6 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/finances': typeof FinancesRoute
   '/goals': typeof GoalsRoute
   '/mood': typeof MoodRoute
   '/planner': typeof PlannerRoute
@@ -66,6 +74,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/finances': typeof FinancesRoute
   '/goals': typeof GoalsRoute
   '/mood': typeof MoodRoute
   '/planner': typeof PlannerRoute
@@ -74,12 +83,27 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/goals' | '/mood' | '/planner' | '/routines' | '/tasks'
+  fullPaths:
+    | '/'
+    | '/finances'
+    | '/goals'
+    | '/mood'
+    | '/planner'
+    | '/routines'
+    | '/tasks'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/goals' | '/mood' | '/planner' | '/routines' | '/tasks'
+  to:
+    | '/'
+    | '/finances'
+    | '/goals'
+    | '/mood'
+    | '/planner'
+    | '/routines'
+    | '/tasks'
   id:
     | '__root__'
     | '/'
+    | '/finances'
     | '/goals'
     | '/mood'
     | '/planner'
@@ -89,6 +113,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FinancesRoute: typeof FinancesRoute
   GoalsRoute: typeof GoalsRoute
   MoodRoute: typeof MoodRoute
   PlannerRoute: typeof PlannerRoute
@@ -133,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GoalsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finances': {
+      id: '/finances'
+      path: '/finances'
+      fullPath: '/finances'
+      preLoaderRoute: typeof FinancesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -145,6 +177,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FinancesRoute: FinancesRoute,
   GoalsRoute: GoalsRoute,
   MoodRoute: MoodRoute,
   PlannerRoute: PlannerRoute,
