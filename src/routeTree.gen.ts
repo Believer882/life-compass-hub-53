@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TasksRouteImport } from './routes/tasks'
 import { Route as RoutinesRouteImport } from './routes/routines'
 import { Route as PlannerRouteImport } from './routes/planner'
+import { Route as MoodRouteImport } from './routes/mood'
 import { Route as GoalsRouteImport } from './routes/goals'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -30,6 +31,11 @@ const PlannerRoute = PlannerRouteImport.update({
   path: '/planner',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MoodRoute = MoodRouteImport.update({
+  id: '/mood',
+  path: '/mood',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GoalsRoute = GoalsRouteImport.update({
   id: '/goals',
   path: '/goals',
@@ -44,6 +50,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/goals': typeof GoalsRoute
+  '/mood': typeof MoodRoute
   '/planner': typeof PlannerRoute
   '/routines': typeof RoutinesRoute
   '/tasks': typeof TasksRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/goals': typeof GoalsRoute
+  '/mood': typeof MoodRoute
   '/planner': typeof PlannerRoute
   '/routines': typeof RoutinesRoute
   '/tasks': typeof TasksRoute
@@ -59,21 +67,30 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/goals': typeof GoalsRoute
+  '/mood': typeof MoodRoute
   '/planner': typeof PlannerRoute
   '/routines': typeof RoutinesRoute
   '/tasks': typeof TasksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/goals' | '/planner' | '/routines' | '/tasks'
+  fullPaths: '/' | '/goals' | '/mood' | '/planner' | '/routines' | '/tasks'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/goals' | '/planner' | '/routines' | '/tasks'
-  id: '__root__' | '/' | '/goals' | '/planner' | '/routines' | '/tasks'
+  to: '/' | '/goals' | '/mood' | '/planner' | '/routines' | '/tasks'
+  id:
+    | '__root__'
+    | '/'
+    | '/goals'
+    | '/mood'
+    | '/planner'
+    | '/routines'
+    | '/tasks'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   GoalsRoute: typeof GoalsRoute
+  MoodRoute: typeof MoodRoute
   PlannerRoute: typeof PlannerRoute
   RoutinesRoute: typeof RoutinesRoute
   TasksRoute: typeof TasksRoute
@@ -102,6 +119,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlannerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mood': {
+      id: '/mood'
+      path: '/mood'
+      fullPath: '/mood'
+      preLoaderRoute: typeof MoodRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/goals': {
       id: '/goals'
       path: '/goals'
@@ -122,6 +146,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   GoalsRoute: GoalsRoute,
+  MoodRoute: MoodRoute,
   PlannerRoute: PlannerRoute,
   RoutinesRoute: RoutinesRoute,
   TasksRoute: TasksRoute,
