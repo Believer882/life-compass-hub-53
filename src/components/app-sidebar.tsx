@@ -8,6 +8,7 @@ import {
   Smile,
   Wallet,
   Sparkles,
+  Settings,
 } from "lucide-react";
 import {
   Sidebar,
@@ -28,6 +29,7 @@ const items = [
   { title: "Goals", url: "/goals", icon: Target },
   { title: "Mood & Journal", url: "/mood", icon: Smile },
   { title: "Finances", url: "/finances", icon: Wallet },
+  { title: "Alarm Settings", url: "/settings", icon: Settings },
 ];
 
 export function AppSidebar() {
