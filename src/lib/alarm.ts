@@ -9,6 +9,28 @@ export const ALARM_SOUNDS = [
   { id: "buzz", label: "Buzzer", freqs: [220, 240], pattern: [0.4, 0.1, 0.4] },
 ];
 
+const CUSTOM_KEY = "uld-custom-sounds-v1";
+const SETTINGS_KEY = "uld-alarm-settings-v1";
+
+export interface CustomSound { id: string; label: string; dataUrl: string; }
+export interface AlarmSettings { volume: number; }
+
+export function getSettings(): AlarmSettings {
+  if (typeof localStorage === "undefined") return { volume: 0.6 };
+  try { return JSON.parse(localStorage.getItem(SETTINGS_KEY) || "") || { volume: 0.6 }; }
+  catch { return { volume: 0.6 }; }
+}
+export function setSettings(s: AlarmSettings) {
+  if (typeof localStorage !== "undefined") localStorage.setItem(SETTINGS_KEY, JSON.stringify(s));
+}
+export function getCustomSounds(): CustomSound[] {
+  if (typeof localStorage === "undefined") return [];
+  try { return JSON.parse(localStorage.getItem(CUSTOM_KEY) || "[]"); } catch { return []; }
+}
+export function saveCustomSounds(list: CustomSound[]) {
+  if (typeof localStorage !== "undefined") localStorage.setItem(CUSTOM_KEY, JSON.stringify(list));
+}
+
 let audioCtx: AudioContext | null = null;
 function getCtx() {
   if (typeof window === "undefined") return null;
@@ -21,7 +43,23 @@ function getCtx() {
   return audioCtx;
 }
 
+let currentAudio: HTMLAudioElement | null = null;
+
 export function playAlarm(soundId: string, repeats = 3) {
+  const vol = getSettings().volume;
+  // Custom uploaded sound
+  if (soundId.startsWith("custom:")) {
+    const id = soundId.slice(7);
+    const cs = getCustomSounds().find((c) => c.id === id);
+    if (cs) {
+      try { currentAudio?.pause(); } catch {}
+      const a = new Audio(cs.dataUrl);
+      a.volume = vol;
+      currentAudio = a;
+      a.play().catch(() => {});
+      return;
+    }
+  }
   const ctx = getCtx();
   if (!ctx) return;
   const sound = ALARM_SOUNDS.find((s) => s.id === soundId) || ALARM_SOUNDS[0];
@@ -35,7 +73,7 @@ export function playAlarm(soundId: string, repeats = 3) {
       osc.frequency.value = f;
       const dur = sound.pattern[i % sound.pattern.length];
       gain.gain.setValueAtTime(0, t);
-      gain.gain.linearRampToValueAtTime(0.25, t + 0.02);
+      gain.gain.linearRampToValueAtTime(0.25 * vol, t + 0.02);
       gain.gain.exponentialRampToValueAtTime(0.001, t + dur);
       osc.connect(gain).connect(ctx.destination);
       osc.start(t);
@@ -44,6 +82,10 @@ export function playAlarm(soundId: string, repeats = 3) {
     });
     t += 0.2;
   }
+}
+
+export function stopAlarm() {
+  try { currentAudio?.pause(); currentAudio = null; } catch {}
 }
 
 export async function requestNotificationPermission() {
