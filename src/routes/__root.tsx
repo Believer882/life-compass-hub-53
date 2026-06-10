@@ -81,15 +81,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Unified Life Dashboard" },
+      { title: "start again" },
       { name: "description", content: "Routines, tasks, planner, goals, mood, and finances — all in one personal command center." },
       { name: "author", content: "Unified Life" },
       { name: "theme-color", content: "#1a2230" },
-      { property: "og:title", content: "Unified Life Dashboard" },
-      { property: "og:description", content: "Your personal command center for routines, tasks, planning, goals, mood & finances." },
+      { property: "og:title", content: "start again" },
+      { property: "og:description", content: "Routines, tasks, planner, goals, mood, and finances — all in one personal command center." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "start again" },
+      { name: "twitter:description", content: "Routines, tasks, planner, goals, mood, and finances — all in one personal command center." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/0b909582-b986-4e3a-9718-13a5188a24da" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/0b909582-b986-4e3a-9718-13a5188a24da" },
     ],
     links: [
       {
