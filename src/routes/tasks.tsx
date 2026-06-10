@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
 import { Plus, Trash2, Bell, BellOff, Volume2 } from "lucide-react";
-import { ALARM_SOUNDS, playAlarm, requestNotificationPermission } from "@/lib/alarm";
+import { ALARM_SOUNDS, playAlarm, requestNotificationPermission, getCustomSounds } from "@/lib/alarm";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/tasks")({
@@ -102,6 +102,7 @@ function TasksPage() {
                         <SelectTrigger className="flex-1"><SelectValue/></SelectTrigger>
                         <SelectContent>
                           {ALARM_SOUNDS.map((s)=>(<SelectItem key={s.id} value={s.id}>{s.label}</SelectItem>))}
+                          {getCustomSounds().map((c)=>(<SelectItem key={c.id} value={`custom:${c.id}`}>Custom: {c.label}</SelectItem>))}
                         </SelectContent>
                       </Select>
                       <Button type="button" variant="outline" size="icon" onClick={()=>playAlarm(sound,1)} title="Preview"><Volume2 className="h-4 w-4"/></Button>
