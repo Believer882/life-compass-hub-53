@@ -130,6 +130,20 @@ function RootComponent() {
   useEffect(() => {
     bootAlarmScheduler();
     requestNotificationPermission();
+    // Register service worker only on the published site (not in Lovable preview/iframe/dev)
+    if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+      const host = window.location.hostname;
+      const inIframe = window.self !== window.top;
+      const isPreview =
+        host.startsWith("id-preview--") ||
+        host.startsWith("preview--") ||
+        host.endsWith(".lovableproject.com") ||
+        host.endsWith(".lovableproject-dev.com") ||
+        host.endsWith(".beta.lovable.dev");
+      if (!inIframe && !isPreview && import.meta.env.PROD) {
+        navigator.serviceWorker.register("/sw.js").catch(() => {});
+      }
+    }
   }, []);
 
   return (
