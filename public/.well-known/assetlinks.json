@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "app.lovable.lifecompasshub53",
+        "sha256_cert_fingerprints": ["33:93:78:FE:98:03:24:B5:3F:2E:40:3E:B6:A4:C7:DD:10:AA:08:C7:DA:75:48:5F:29:6D:53:AF:EC:DC:6A:78"]
+      }
+    }]
